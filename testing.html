@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List with Clock</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        #todoInput {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #todoList {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #todoList li {
+            background-color: #f9f9f9;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #todoList li button {
+            background-color: #ff6347;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+        }
+
+        #todoList li button:hover {
+            background-color: #e53e3e;
+        }
+
+        #clock {
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff69b4, #ff6347, #ffb6c1, #8a2be2, #add8e6);
+            -webkit-background-clip: text;
+            color: transparent;
+            animation: color-change 4s linear infinite;
+        }
+
+        @keyframes color-change {
+            0% { background-position: 0 0; }
+            100% { background-position: 400% 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>My To-Do List</h1>
+        <input type="text" id="todoInput" placeholder="Add a new task..." />
+        <button id="addButton">Add Task</button>
+
+        <ul id="todoList">
+            <!-- To-Do tasks will appear here -->
+        </ul>
+    </div>
+
+    <div id="clock">
+        <!-- The clock will appear here -->
+    </div>
+
+    <script>
+        // Function to add a task to the to-do list
+        document.getElementById("addButton").addEventListener("click", function() {
+            let todoInput = document.getElementById("todoInput");
+            let todoText = todoInput.value.trim();
+            
+            if (todoText === "") {
+                return;
+            }
+
+            let li = document.createElement("li");
+            li.textContent = todoText;
+
+            let deleteButton = document.createElement("button");
+            deleteButton.textContent = "Delete";
+            deleteButton.addEventListener("click", function() {
+                li.remove();
+            });
+
+            li.appendChild(deleteButton);
+            document.getElementById("todoList").appendChild(li);
+
+            todoInput.value = "";  // Clear the input field
+        });
+
+        // Function to update the clock
+        function updateClock() {
+            let currentDate = new Date();
+            let hours = currentDate.getHours().toString().padStart(2, '0');
+            let minutes = currentDate.getMinutes().toString().padStart(2, '0');
+            let seconds = currentDate.getSeconds().toString().padStart(2, '0');
+            let timeString = `${hours}:${minutes}:${seconds}`;
+
+            document.getElementById("clock").textContent = timeString;
+        }
+
+        // Call updateClock every second to update the clock
+        setInterval(updateClock, 1000);
+        updateClock();  // Initialize clock immediately
+    </script>
+
+</body>
+</html>
